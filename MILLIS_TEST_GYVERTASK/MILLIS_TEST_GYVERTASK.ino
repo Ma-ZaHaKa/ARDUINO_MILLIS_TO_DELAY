@@ -19,12 +19,14 @@ void TASK(int delay)
   }
 }
 
-bool _DKSleep(float deltaTime, float waitTime, float& sleepBuffer)
+bool DKSleep(unsigned long& buffer, int delay_time_ms)
 {
-  sleepBuffer += deltaTime;
-  if (sleepBuffer >= waitTime) {
-    sleepBuffer = 0.0f;
+  unsigned long currentMillis = millis();
+  if (currentMillis - buffer >= delay_time_ms)
+  {
+    buffer = currentMillis;
     return true;
   }
+
   return false;
 }

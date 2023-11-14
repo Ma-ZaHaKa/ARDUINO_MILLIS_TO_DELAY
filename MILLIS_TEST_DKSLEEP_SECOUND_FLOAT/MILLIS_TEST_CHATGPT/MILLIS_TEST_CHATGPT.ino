@@ -4,24 +4,26 @@ unsigned long previousTime;
 float delayDuration = 2.0f;
 float sleepBuffer = 0.0f;
 
-void setup() {
+int tmp_counter = 1;
+
+void setup()
+{
   Serial.begin(9600);
   previousTime = millis();
 }
 
-void loop() {
+
+void loop()
+{
   unsigned long currentTime = millis();
   float deltaTime = (currentTime - previousTime) / 1000.0f;
   previousTime = currentTime;
 
-  bool timerFlag = false;
-  if (_DKSleep(deltaTime, delayDuration, sleepBuffer)) {
-    timerFlag = true;
-    // Ваш код, который выполнится после истечения таймера
-  }
+  if (_DKSleep(deltaTime, delayDuration, sleepBuffer)) { Serial.println(("DELAY ELAPSED! x" + String(tmp_counter++))); }
 }
 
-bool _DKSleep(float deltaTime, float waitTime, float& sleepBuffer) {
+bool _DKSleep(float deltaTime, float waitTime, float& sleepBuffer)
+{
   sleepBuffer += deltaTime;
   if (sleepBuffer >= waitTime) {
     sleepBuffer = 0.0f;
